@@ -1,0 +1,9 @@
+<div class="card border-0">
+  <p class="text-center">{{name}}</p>
+  <img [src]="user.avatar" class="card-img-top" alt="...">
+  <div class="card-body text-center">
+    <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+    <p class="card-text">{{user.email}}</p>
+    <button class="btn btn-primary" (click)="changeUser()">Cambiar Usuario</button>
+  </div>
+</div>
