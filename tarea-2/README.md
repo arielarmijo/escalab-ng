@@ -1,6 +1,6 @@
 # Tarea2
 
-La tarea se puede visualizar en el siguiente link: [tarea-2](https://arielarmijo.github.io/escalab-ng/tarea-2/dist)
+La tarea resuelta se puede visualizar en el siguiente link: [tarea-2](https://arielarmijo.github.io/escalab-ng/tarea-2/dist)
 
 
 ## Intrucciones:
