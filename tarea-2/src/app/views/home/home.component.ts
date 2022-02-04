@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <h1>Tarea 2</h1>
     <p>
-      Demostración de la carga peresoza de vistas.
+      Demostración de la carga peresoza de vistas y de la modularización de componentes.
     </p>
   `,
   styles: []

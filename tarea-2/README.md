@@ -1,6 +1,9 @@
 # Tarea2
 
-Intrucciones:
+La tarea se puede visualizar en el siguiente link: [tarea-2](https://arielarmijo.github.io/escalab-ng/tarea-2/dist)
+
+
+## Intrucciones:
 
 - Crear Aplicación nueva angular 
 
