@@ -18,8 +18,21 @@ export class HarryPotterService {
     return this.http.get<HarryPotterCharacter[]>(`${this.urlApi}/house/${house}`);
   }
 
-  getHouses(): string[] {
-    return this.houses;
+  getHouses(): Observable<any> {
+    return this.http.get<HarryPotterCharacter[]>(this.urlApi).pipe(
+      map(characters => {
+        const houses = characters
+          .filter(char => char.house !== '')
+          .map(char => char.house)
+          .reduce((acc, curr) => {
+            if (acc[curr]) acc[curr] = acc[curr] + 1;
+            else acc[curr] = 1;
+            return acc;
+          }, <any>{});
+        return Object.entries(houses).map(([key, value]) => ({name: key, qty: value}));
+      }
+      )
+    )
   }
 
 }
