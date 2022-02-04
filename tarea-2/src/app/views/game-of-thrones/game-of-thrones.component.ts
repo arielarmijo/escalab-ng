@@ -14,7 +14,7 @@ import ListItem from 'src/app/models/list-item.interface';
         <div class="col">
           <app-selectable-list [items]="items" (listItemClickEvent)="onListItemClick($event)"></app-selectable-list>
         </div>
-        <div class="col">
+        <div class="col-4">
         <app-card *ngIf="card" [card]="card"></app-card>
         </div>
       </div>

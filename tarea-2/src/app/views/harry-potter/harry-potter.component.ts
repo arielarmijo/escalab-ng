@@ -9,7 +9,7 @@ import { HarryPotterService } from 'src/app/services/harry-potter.service';
   template: `
     <div class="container">
       <div class="row">
-        <div class="col">
+        <div class="col-3">
           <app-selectable-list [items]="houseItems" (listItemClickEvent)="onHouseItemClick($event)"></app-selectable-list>
         </div>
         <div class="col" *ngIf="characters.length === 0">
