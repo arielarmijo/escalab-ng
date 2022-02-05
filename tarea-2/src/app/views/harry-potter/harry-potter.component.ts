@@ -23,7 +23,7 @@ import { HarryPotterCharacter } from './models/hp-character.model';
           <h1>{{house}}</h1>
           <app-list [items]="characterItems" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage" *ngIf="characterItems.length > 0; else spinner">
             <ng-template #item let-item="item" (itemClicked)="log($event)">
-              <app-selectable-item [item]="item" [showId]="true" (itemClicked)="showCharactersCard($event)"></app-selectable-item>
+              <app-selectable-item [item]="item" [showId]="true" (itemClicked)="showCharacterCard($event)"></app-selectable-item>
             </ng-template>
           </app-list>
           <app-pagination [currentPage]="currentPage" [itemsLength]="characterItems.length"
@@ -77,11 +77,11 @@ export class HarryPotterComponent implements OnInit {
     this.hpSrv.getCharactersFromHouse(item.text).subscribe(characters => {
       this.characterItems = characters.map((char, i) => ({id: i, text: char.name, altText: char.gender}));
       this.characters = characters;
-      this.showCharactersCard(this.characterItems[0]);
+      this.showCharacterCard(this.characterItems[0]);
     });
   }
 
-  showCharactersCard(item: Item) {
+  showCharacterCard(item: Item) {
     this.card = this.characterToCard(this.characters[item.id]);
   }
 
