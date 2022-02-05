@@ -1,64 +1,88 @@
 import { Component, OnInit } from '@angular/core';
-import { Card, ListItem } from '@app/core/models/component-element.model';
+import { Card, Item, ListItem } from '@app/core/models/component-element.model';
 import { HarryPotterService } from './services/harry-potter.service';
 import { HarryPotterCharacter } from './models/hp-character.model';
 
 @Component({
   selector: 'app-harry-potter',
   template: `
-    <div class="container">
+
+    <div class="container" *ngIf="houseItems.length > 0; else spinner">
       <div class="row">
-        <div class="col-3 fs-6" *ngIf="houses.length > 0">
-          <h2>Houses</h2>
-          <app-selectable-list [items]="houseItems" (listItemClickEvent)="onHouseItemClick($event)"></app-selectable-list>
+
+        <div class="col-3">
+          <h1>Houses</h1>
+          <app-list [items]="houseItems">
+            <ng-template #item let-item="item" (itemClicked)="log($event)">
+              <app-selectable-item [item]="item" [showId]="false" (itemClicked)="showHouseCharacters($event)"></app-selectable-item>
+            </ng-template>
+          </app-list>
         </div>
-        <div class="col" *ngIf="characters.length > 0">
-          <h4>{{house}}</h4>
-          <app-selectable-list [items]="characterItems" (listItemClickEvent)="onCharacterItemClick($event)"></app-selectable-list>
+
+        <div class="col">
+          <h1>{{house}}</h1>
+          <app-list [items]="characterItems" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage" *ngIf="characterItems.length > 0; else spinner">
+            <ng-template #item let-item="item" (itemClicked)="log($event)">
+              <app-selectable-item [item]="item" [showId]="true" (itemClicked)="showCharactersCard($event)"></app-selectable-item>
+            </ng-template>
+          </app-list>
+          <app-pagination [currentPage]="currentPage" [itemsLength]="characterItems.length"
+            [itemsPerPage]="itemsPerPage" (pageChanged)="currentPage=$event">
+          </app-pagination>
         </div>
-        <div class="col" *ngIf="characters.length > 0">
-          <app-card *ngIf="card" [card]="card"></app-card>
+
+        <div class="col">
+        <app-card *ngIf="card" [card]="card"></app-card>
         </div>
-        <div class="col" *ngIf="characters.length === 0">
-          <app-spinner></app-spinner>
-        </div>
+
       </div>
     </div>
+
+    <ng-template  #spinner>
+      <app-spinner></app-spinner>
+    </ng-template>
+
   `,
-  styles: []
+  styles: [
+    'li {cursor: pointer;}',
+    'li:hover {color: #0d6efd; transform: translate(5px, 0px);}',
+    '.badge {margin: 0 0.5rem;}'
+  ]
 })
 export class HarryPotterComponent implements OnInit {
 
+  houseItems: Item[] = [];
   house?: string;
-  houses: any[] = [];
-  houseItems: ListItem[] = [];
   characters: HarryPotterCharacter[] = [];
-  characterItems: ListItem[] = [];
+  characterItems: Item[] = [];
   card?: Card;
+
+  currentPage = 0;
+  itemsPerPage = 12;
 
   constructor(private hpSrv: HarryPotterService) { }
 
   ngOnInit(): void {
     this.hpSrv.getHouses().subscribe(houses => {
-      this.houses = houses;
+      this.houseItems = houses.map((house: any, i: number) => ({id: i, text: house.name, qty: house.qty}));
       this.house = houses[0].name;
-      this.houseItems = houses.map((house: any) => ({name: house.name, altName: house.qty}));
-      this.onHouseItemClick(0);
+      this.showHouseCharacters(this.houseItems[0]);
     });
   }
 
-  onHouseItemClick(index: number) {
-    this.house = this.houses[index].name;
-    this.characters = [];
-    this.hpSrv.getCharactersFromHouse(this.house as string).subscribe(characters => {
+  showHouseCharacters(item: Item) {
+    this.house = item.text;
+    this.characterItems = [];
+    this.currentPage = 0;
+    this.hpSrv.getCharactersFromHouse(item.text).subscribe(characters => {
+      this.characterItems = characters.map((char, i) => ({id: i, text: char.name, altText: char.gender}));
       this.characters = characters;
-      this.characterItems = characters.map(char => ({name: char.name, altName: char.gender}));
-      this.card = this.characterToCard(characters[0]);
+      this.showCharactersCard(this.characterItems[0]);
     });
   }
 
-  onCharacterItemClick(index: number) {
-    this.card = this.characterToCard(this.characters[index]);
+  showCharactersCard(item: Item) {
+    this.card = this.characterToCard(this.characters[item.id]);
   }
 
   private characterToCard(character: HarryPotterCharacter): Card {

@@ -1,47 +1,60 @@
 import { Component, OnInit } from '@angular/core';
-import { Card, ListItem } from '@app/core/models/component-element.model';
+import { Card, Item, ListItem } from '@app/core/models/component-element.model';
 import { GameOfThronesService } from './services/game-of-thrones.service';
 import { GameOfThronesCharacter } from './models/got-character.model';
 
 @Component({
   selector: 'app-game-of-thrones',
   template: `
-    <h1 class="text-center mb-4">Game of Thrones Characters</h1>   
-    <app-spinner *ngIf="items.length == 0"></app-spinner>
-    <div class="container" *ngIf="items.length > 0">
+
+    <h1 class="text-center mb-3">Game of Thrones Characters</h1>
+
+    <div class="container" *ngIf="items.length > 0; else spinner">
       <div class="row">
-        <div class="col">
-          <app-selectable-list [items]="items" (listItemClickEvent)="onListItemClick($event)"></app-selectable-list>
+        <div class="col-8">
+          <app-list [items]="items" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage">
+            <ng-template #item let-item="item">
+              <app-selectable-item [item]="item" (itemClicked)="showCharacterCard($event)"></app-selectable-item>
+            </ng-template>
+          </app-list>
+          <app-pagination [currentPage]="currentPage" [itemsLength]="items.length"
+            [itemsPerPage]="itemsPerPage" (pageChanged)="currentPage = $event">
+          </app-pagination>
         </div>
-        <div class="col-4">
-        <app-card *ngIf="card" [card]="card"></app-card>
+        <div class="col">
+          <app-card *ngIf="card" [card]="card"></app-card>
         </div>
       </div>
-    </div>
+    </div>  
+    
+    <ng-template #spinner>
+      <app-spinner></app-spinner>
+    </ng-template>
+
   `,
-  styles: [
-    'li {cursor: pointer;}',
-    'li:hover {color: blue; transform: translate(5px, 0px);}'
-  ]
+  styles: [ ]
 })
 export class GameOfThronesComponent implements OnInit {
 
-  items: Array<ListItem> = [];
+  items: Array<Item> = [];
   characters: GameOfThronesCharacter[] = [];
   card?: Card;
+
+  currentPage = 0;
+  itemsPerPage = 12;
 
   constructor(private gotSrv: GameOfThronesService) { }
 
   ngOnInit(): void {
     this.gotSrv.getCharacters().subscribe(characters => {
-      this.items = characters.map(char => ({name: char.fullName, altName: char.title}));
-      this.card = this.characterToCard(characters[0]);
+      this.items = characters.map(char => ({id: char.id, text: char.fullName, altText: char.title}));
       this.characters = characters;
+      this.card = this.characterToCard(characters[0]);
     });
   }
 
-  onListItemClick(index: number) {
-    this.card = this.characterToCard(this.characters[index]);
+  showCharacterCard(item: Item) {
+    this.card = this.characterToCard(this.characters[item.id]);
   }
 
   private characterToCard(character: GameOfThronesCharacter): Card {

@@ -30,7 +30,13 @@ export class HarryPotterService {
             else acc[curr] = 1;
             return acc;
           }, <any>{});
-        return Object.entries(houses).map(([key, value]) => ({name: key, qty: value}));
+        return Object.entries(houses)
+          .map(([key, value]) => ({ name: key, qty: value }))
+          .sort((a: any, b: any) => {
+            if (a.name > b.name) return 1;
+            if (a.name < b.name) return -1;
+            return 0;
+          });
       }
       )
     )
