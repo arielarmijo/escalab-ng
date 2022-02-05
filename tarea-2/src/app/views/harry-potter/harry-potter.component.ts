@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import Card from 'src/app/models/card.interface';
-import { HarryPotterCharacter } from 'src/app/models/harry-potter-character.interface';
-import ListItem from 'src/app/models/list-item.interface';
-import { HarryPotterService } from 'src/app/services/harry-potter.service';
+import { Card, ListItem } from '@app/core/models/component-element.model';
+import { HarryPotterService } from './services/harry-potter.service';
+import { HarryPotterCharacter } from './models/hp-character.model';
 
 @Component({
   selector: 'app-harry-potter',

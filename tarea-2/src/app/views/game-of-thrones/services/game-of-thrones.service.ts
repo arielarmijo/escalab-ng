@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import GameOfThronesCharacter from '../models/game-of-thrones-character.interface';
+import { GameOfThronesModule } from '../game-of-thrones.module';
+import { GameOfThronesCharacter } from '../models/got-character.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class GameOfThronesService {
 

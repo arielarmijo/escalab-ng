@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import ListItem from 'src/app/models/list-item.interface';
+import { ListItem } from '@app/core/models/component-element.model';
 
 @Component({
   selector: 'app-selectable-list',
@@ -16,7 +16,7 @@ import ListItem from 'src/app/models/list-item.interface';
   ]
 })
 export class SelectableListComponent {
-  
+
   @Input() items?: ListItem[];
   @Output() listItemClickEvent = new EventEmitter<number>();
 

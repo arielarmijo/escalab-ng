@@ -1,4 +1,4 @@
-export default interface GameOfThronesCharacter {
+export interface GameOfThronesCharacter {
   id:        number;
   firstName: string;
   lastName:  string;

@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { HarryPotterCharacter } from '../models/harry-potter-character.interface';
+import { HarryPotterModule } from '../harry-potter.module';
+import { HarryPotterCharacter } from '../models/hp-character.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class HarryPotterService {
 

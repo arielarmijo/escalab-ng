@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GameOfThronesService } from 'src/app/services/game-of-thrones.service';
-import Card from 'src/app/models/card.interface';
-import GameOfThronesCharacter from 'src/app/models/game-of-thrones-character.interface';
-import ListItem from 'src/app/models/list-item.interface';
+import { Card, ListItem } from '@app/core/models/component-element.model';
+import { GameOfThronesService } from './services/game-of-thrones.service';
+import { GameOfThronesCharacter } from './models/got-character.model';
 
 @Component({
   selector: 'app-game-of-thrones',

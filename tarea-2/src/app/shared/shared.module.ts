@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from './components/navbar.component';
 import { RouterModule } from '@angular/router';
-import { SpinnerComponent } from './components/spinner.component';
-import { CardComponent } from './components/card.component';
-import { SelectableListComponent } from './components/selectable-list.component';
+import { NavbarComponent } from '@app/core/components/navbar.component';
+import { SpinnerComponent } from '@app/core/components/spinner.component';
+import { CardComponent } from '@app/core/components/card.component';
+import { SelectableListComponent } from '@app/core/components/selectable-list.component';
 
 @NgModule({
   declarations: [
