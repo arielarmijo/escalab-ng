@@ -19,7 +19,7 @@ import { HarryPotterCharacter } from './models/hp-character.model';
           </app-list>
         </div>
 
-        <div class="col">
+        <div class="col-6">
           <h1>{{house}}</h1>
           <app-list [items]="characterItems" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage" *ngIf="characterItems.length > 0; else spinner">
             <ng-template #item let-item="item" (itemClicked)="log($event)">
@@ -31,7 +31,7 @@ import { HarryPotterCharacter } from './models/hp-character.model';
           </app-pagination>
         </div>
 
-        <div class="col">
+        <div class="col align-self-center">
         <app-card *ngIf="card" [card]="card"></app-card>
         </div>
 

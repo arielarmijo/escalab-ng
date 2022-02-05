@@ -21,7 +21,7 @@ import { GameOfThronesCharacter } from './models/got-character.model';
             [itemsPerPage]="itemsPerPage" (pageChanged)="currentPage = $event">
           </app-pagination>
         </div>
-        <div class="col">
+        <div class="col align-self-center">
           <app-card *ngIf="card" [card]="card"></app-card>
         </div>
       </div>
