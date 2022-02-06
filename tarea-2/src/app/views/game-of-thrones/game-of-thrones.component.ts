@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Card, Item, ListItem } from '@app/core/models/component-element.model';
+import { Card, Item, Pagination } from '@app/core/models/component-element.model';
 import { GameOfThronesService } from './services/game-of-thrones.service';
 import { GameOfThronesCharacter } from './models/got-character.model';
 
@@ -14,11 +14,18 @@ import { GameOfThronesCharacter } from './models/got-character.model';
         <div class="col-8">
           <app-list [items]="items" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage">
             <ng-template #item let-item="item">
-              <app-selectable-item [item]="item" (itemClicked)="showCharacterCard($event)"></app-selectable-item>
+              <li (click)="showCharacterCard(item)">
+                  <span>{{item.id + 1}}.-</span>
+                  <span>{{item.text}}</span>
+                  <span class="text-muted" *ngIf="item.altText">({{item.altText}})</span>
+                  <span class="badge bg-secondary">{{item.qty}}</span>
+                </li>
             </ng-template>
           </app-list>
-          <app-pagination [currentPage]="currentPage" [itemsLength]="items.length"
-            [itemsPerPage]="itemsPerPage" (pageChanged)="currentPage = $event">
+          <app-pagination [itemsLength]="items.length"
+                          [itemsPerPage]="itemsPerPage"
+                          [currentPage]="currentPage"
+                          (pageChanged)="currentPage=$event">
           </app-pagination>
         </div>
         <div class="col align-self-center">
@@ -32,14 +39,17 @@ import { GameOfThronesCharacter } from './models/got-character.model';
     </ng-template>
 
   `,
-  styles: [ ]
+  styles: [
+    'li {cursor: pointer; list-style-type: none;}',
+    'li:hover {color: #0d6efd; transform: translate(5px, 0px);}',
+    'span {margin: 0 3px;}'
+  ]
 })
 export class GameOfThronesComponent implements OnInit {
 
-  items: Array<Item> = [];
+  items: Item[] = [];
   characters: GameOfThronesCharacter[] = [];
   card?: Card;
-
   currentPage = 0;
   itemsPerPage = 12;
 
@@ -54,6 +64,7 @@ export class GameOfThronesComponent implements OnInit {
   }
 
   showCharacterCard(item: Item) {
+    const character = this.characters[item.id]
     this.card = this.characterToCard(this.characters[item.id]);
   }
 

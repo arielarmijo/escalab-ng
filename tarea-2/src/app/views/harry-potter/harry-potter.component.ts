@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Card, Item, ListItem } from '@app/core/models/component-element.model';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Card, Item, Pagination } from '@app/core/models/component-element.model';
 import { HarryPotterService } from './services/harry-potter.service';
 import { HarryPotterCharacter } from './models/hp-character.model';
 
@@ -14,20 +14,34 @@ import { HarryPotterCharacter } from './models/hp-character.model';
           <h1>Houses</h1>
           <app-list [items]="houseItems">
             <ng-template #item let-item="item" (itemClicked)="log($event)">
-              <app-selectable-item [item]="item" [showId]="false" (itemClicked)="showHouseCharacters($event)"></app-selectable-item>
+              <li (click)="showHouseCharacters(item)">
+                <span>{{item.text}}</span>
+                <span class="text-muted" *ngIf="item.altText">({{item.altText}})</span>
+                <span class="badge bg-secondary">{{item.qty}}</span>
+              </li>
             </ng-template>
           </app-list>
         </div>
 
         <div class="col-6">
           <h1>{{house}}</h1>
-          <app-list [items]="characterItems" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage" *ngIf="characterItems.length > 0; else spinner">
+          <app-list *ngIf="characterItems.length > 0; else spinner"
+                    [items]="characterItems"
+                    [currentPage]="currentPage"
+                    [itemsPerPage]="itemsPerPage">
             <ng-template #item let-item="item" (itemClicked)="log($event)">
-              <app-selectable-item [item]="item" [showId]="true" (itemClicked)="showCharacterCard($event)"></app-selectable-item>
+              <li (click)="showCharacterCard(item)">
+                <span>{{item.id + 1}}.-</span>
+                <span>{{item.text}}</span>
+                <span class="text-muted" *ngIf="item.altText">({{item.altText}})</span>
+                <span class="badge bg-secondary">{{item.qty}}</span>
+              </li>
             </ng-template>
           </app-list>
-          <app-pagination [currentPage]="currentPage" [itemsLength]="characterItems.length"
-            [itemsPerPage]="itemsPerPage" (pageChanged)="currentPage=$event">
+          <app-pagination [itemsLength]="characterItems.length"
+                          [itemsPerPage]="itemsPerPage"
+                          [currentPage]="currentPage"
+                          (pageChanged)="currentPage=$event">
           </app-pagination>
         </div>
 
@@ -44,9 +58,9 @@ import { HarryPotterCharacter } from './models/hp-character.model';
 
   `,
   styles: [
-    'li {cursor: pointer;}',
+    'li {cursor: pointer; list-style-type: none;}',
     'li:hover {color: #0d6efd; transform: translate(5px, 0px);}',
-    '.badge {margin: 0 0.5rem;}'
+    'span {margin: 0 3px;}'
   ]
 })
 export class HarryPotterComponent implements OnInit {
@@ -58,6 +72,7 @@ export class HarryPotterComponent implements OnInit {
   card?: Card;
 
   currentPage = 0;
+  itemsLength = this.characterItems.length;
   itemsPerPage = 12;
 
   constructor(private hpSrv: HarryPotterService) { }
@@ -65,7 +80,6 @@ export class HarryPotterComponent implements OnInit {
   ngOnInit(): void {
     this.hpSrv.getHouses().subscribe(houses => {
       this.houseItems = houses.map((house: any, i: number) => ({id: i, text: house.name, qty: house.qty}));
-      this.house = houses[0].name;
       this.showHouseCharacters(this.houseItems[0]);
     });
   }
@@ -75,8 +89,8 @@ export class HarryPotterComponent implements OnInit {
     this.characterItems = [];
     this.currentPage = 0;
     this.hpSrv.getCharactersFromHouse(item.text).subscribe(characters => {
-      this.characterItems = characters.map((char, i) => ({id: i, text: char.name, altText: char.gender}));
       this.characters = characters;
+      this.characterItems = this.characters.map((char, i) => ({id: i, text: char.name, altText: char.gender}));
       this.showCharacterCard(this.characterItems[0]);
     });
   }
