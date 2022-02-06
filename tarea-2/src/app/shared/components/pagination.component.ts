@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 // https://blog.bitsrc.io/component-reusability-techniques-with-angular-727a6c603ad2
 @Component({
@@ -31,6 +31,7 @@ export class PaginationComponent {
 
   get pages() {
     const size = Math.ceil(this.itemsLength/this.itemsPerPage);
+    console.log({pages: size});
     const pages = new Array(size);
     return pages.fill(0).map((e, i) => i);
   }
