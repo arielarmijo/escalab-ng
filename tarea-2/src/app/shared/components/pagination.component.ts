@@ -31,7 +31,6 @@ export class PaginationComponent {
 
   get pages() {
     const size = Math.ceil(this.itemsLength/this.itemsPerPage);
-    console.log({pages: size});
     const pages = new Array(size);
     return pages.fill(0).map((e, i) => i);
   }

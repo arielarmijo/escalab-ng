@@ -1,4 +1,4 @@
-import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
+import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
 import { Item } from '@app/core/models/component-element.model';
 
 // https://blog.bitsrc.io/component-reusability-techniques-with-angular-727a6c603ad2
@@ -11,23 +11,26 @@ import { Item } from '@app/core/models/component-element.model';
   `,
   styles: [ ]
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
 
   @Input() items!: Item[];
-  @Input() itemsPerPage!: number;
+  @Input() itemsPerPage?: number;
   @Input() currentPage = 0;
 
   @ContentChild('item', { static: false }) itemTemplate!: TemplateRef<any>;
 
   constructor() { }
 
+  ngOnInit(): void {
+    this.itemsPerPage = this.itemsPerPage ?? this.items.length;
+  }
+
   get start() {
-    console.log({currentPage: this.currentPage});
-    return this.currentPage * this.itemsPerPage;
+    return this.currentPage * (this.itemsPerPage as number);
   }
 
   get end() {
-    return this.start + this.itemsPerPage;
+    return this.start + (this.itemsPerPage as number);
   }
 
 }

@@ -1,5 +1,5 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Card, Item, Pagination } from '@app/core/models/component-element.model';
+import { Component, OnInit } from '@angular/core';
+import { Card, Item } from '@app/core/models/component-element.model';
 import { HarryPotterService } from './services/harry-potter.service';
 import { HarryPotterCharacter } from './models/hp-character.model';
 
