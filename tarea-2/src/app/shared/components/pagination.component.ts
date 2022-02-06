@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 // https://blog.bitsrc.io/component-reusability-techniques-with-angular-727a6c603ad2
 @Component({

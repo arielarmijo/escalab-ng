@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Card, Item, Pagination } from '@app/core/models/component-element.model';
+import { Card, Item } from '@app/core/models/component-element.model';
 import { GameOfThronesService } from './services/game-of-thrones.service';
 import { GameOfThronesCharacter } from './models/got-character.model';
 
