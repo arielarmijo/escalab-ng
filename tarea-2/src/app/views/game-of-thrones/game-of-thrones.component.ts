@@ -53,14 +53,10 @@ export class GameOfThronesComponent implements OnInit {
   characters: GameOfThronesCharacter[] = [];
   card?: Card;
 
-  constructor(private gotSrv: GameOfThronesService) {
-    console.log('got constructor');
-  }
+  constructor(private gotSrv: GameOfThronesService) { }
 
   ngOnInit(): void {
-    console.log('got init');
     this.gotSrv.getCharacters().subscribe(characters => {
-      console.log('got init subscribe');
       this.items = characters.map(char => ({id: char.id, text: char.fullName, altText: char.title}));
       this.characters = characters;
       this.card = this.characterToCard(characters[0]);
