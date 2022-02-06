@@ -6,8 +6,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   template: `
     <nav>
       <ul class="pagination">
-        <ng-container *ngFor="let p of pages; let i = index">
-          <li class="page-item"><button class="page-link" (click)="pageChanged.emit(i)">{{i+1}}</button></li>
+        <ng-container *ngFor="let p of pages">
+          <li class="page-item"><button class="page-link" (click)="pageChanged.emit(p)">{{p + 1}}</button></li>
         </ng-container>
       </ul>
     </nav>
@@ -28,7 +28,10 @@ export class PaginationComponent {
   constructor() { }
 
   get pages() {
-    return new Array(Math.ceil(this.itemsLength/this.itemsPerPage));
+    const size = Math.ceil(this.itemsLength/this.itemsPerPage);
+    const pages = new Array(size);
+    console.log({pages: size});
+    return pages.fill(0).map((e, i) => i);
   }
 
 }

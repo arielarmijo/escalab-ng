@@ -28,8 +28,8 @@ import { GameOfThronesCharacter } from './models/got-character.model';
                           (pageChanged)="currentPage=$event">
           </app-pagination>
         </div>
-        <div class="col align-self-center">
-          <app-card *ngIf="card" [card]="card"></app-card>
+        <div class="col align-self-center" *ngIf="card">
+          <app-card [card]="card"></app-card>
         </div>
       </div>
     </div>  
@@ -48,15 +48,19 @@ import { GameOfThronesCharacter } from './models/got-character.model';
 export class GameOfThronesComponent implements OnInit {
 
   items: Item[] = [];
-  characters: GameOfThronesCharacter[] = [];
-  card?: Card;
   currentPage = 0;
   itemsPerPage = 12;
+  characters: GameOfThronesCharacter[] = [];
+  card?: Card;
 
-  constructor(private gotSrv: GameOfThronesService) { }
+  constructor(private gotSrv: GameOfThronesService) {
+    console.log('got constructor');
+  }
 
   ngOnInit(): void {
+    console.log('got init');
     this.gotSrv.getCharacters().subscribe(characters => {
+      console.log('got init subscribe');
       this.items = characters.map(char => ({id: char.id, text: char.fullName, altText: char.title}));
       this.characters = characters;
       this.card = this.characterToCard(characters[0]);
@@ -64,7 +68,6 @@ export class GameOfThronesComponent implements OnInit {
   }
 
   showCharacterCard(item: Item) {
-    const character = this.characters[item.id]
     this.card = this.characterToCard(this.characters[item.id]);
   }
 
