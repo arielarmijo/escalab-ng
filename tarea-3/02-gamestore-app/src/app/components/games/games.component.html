@@ -1,0 +1,11 @@
+<h1 class="text-center my-3 fw-bold">Listado de Juegos</h1>
+<div class="container-fluid d-flex flex-wrap justify-content-center align-items-center">
+  <app-card *ngFor="let game of games; let i = index"
+            [game]="game" [index]="i" (buyGameEvent)="selectGame($event)"></app-card>
+</div>
+
+<div class="container-fluid py-5 w-50">
+  <h1 class="display-5 fw-bold">Carrito</h1>
+  <app-carrito [game]="game"></app-carrito>
+</div>
+

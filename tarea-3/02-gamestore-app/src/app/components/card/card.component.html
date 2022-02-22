@@ -1,0 +1,9 @@
+<div class="card m-2 p-2 text-center" style="width: 12rem;">
+  <img [src]="game.img" class="card-img-top" [alt]="game.name">
+  <div class="card-body">
+    <h5 class="card-title fw-bold">{{game.name}}</h5>
+    <p class="card-text">{{game.description}}</p>
+    <button class="btn btn-secondary btn-sm mb-1" (click)="viewGame()">Ver detalle</button>
+    <button class="btn btn-primary btn-sm" (click)="buyGame()">Comprar</button>
+  </div>
+</div>

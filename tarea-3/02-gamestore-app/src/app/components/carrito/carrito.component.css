@@ -1,0 +1,11 @@
+table {
+  width: 500px;
+}
+
+td:nth-child(2) {
+  width: 260px;
+}
+
+td:nth-child(3) {
+  width: 250px;
+}

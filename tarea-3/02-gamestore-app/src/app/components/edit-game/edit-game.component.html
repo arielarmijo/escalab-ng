@@ -1,0 +1,4 @@
+<app-game-form *ngIf="(game$ | async) as game; else error" [game]="game" (gameFormEvent)="updateGame($event)"></app-game-form>
+<ng-template #error>
+  <p>No existe el juego</p>
+</ng-template>
