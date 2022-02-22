@@ -1,5 +1,5 @@
 {
-  "name": "07-gamestore-api",
+  "name": "gamestore-api",
   "version": "1.0.0",
   "description": "Game Store API",
   "main": "index.js",
